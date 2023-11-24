@@ -51,5 +51,5 @@ def get_dijkstra_edges(dijkstra_lista):
 
     return edges_dijks
 
-def erase_visited_edges(grafo):
-    
+def erase_visited_edges(grafo, dijkstra_lista):
+    get_dijkstra_edges(dijkstra_lista)
