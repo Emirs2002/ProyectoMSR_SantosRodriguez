@@ -20,7 +20,7 @@ def main():
     distance_javier, path_javier = grafo_Javier.dijkstra("Javier","Bar")
     print(distance_javier)
     print(path_javier)
-
+    
 
     graficar_grafo(G, list(path_javier))
 

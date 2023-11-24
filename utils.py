@@ -50,3 +50,6 @@ def get_dijkstra_edges(dijkstra_lista):
         edges_dijks.append(edge_d)
 
     return edges_dijks
+
+def erase_visited_edges(grafo):
+    
