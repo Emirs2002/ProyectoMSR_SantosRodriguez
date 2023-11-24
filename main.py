@@ -10,40 +10,11 @@ def main():
                   [23,29,5],[24,25,10],[24,30,5],[25,26,10],[25,"Disco",7],[26,27,10],[26,32,7],[27,28,10],[27,"Cerveceria",7],[28,29,10],[28,34,5],[29,"Cafe",5],[30,"Disco",5],["Disco",32,5],[32,"Cerveceria",5],
                   ["Cerveceria",34,5],[34,"Cafe",5]]
 
-    # Grafo networkx
+     # Grafo networkx
     G = GraphNx(edges_list_Javier).create_graph()
-
-    #handmade graph
-    grafo_Javier = GraphAdyMatrix(36,edges_list_Javier)
-
-    #prueba dijkstra
-    distance_javier, path_javier = grafo_Javier.dijkstra("Javier",21)
     
-    print("JAVIER")
-    print(distance_javier)
-    print(path_javier)
-    
-
-
-    #crear grafo de andreina
-    #lista de arcos con los pesos de andreina (2 + pesosJavier)
-    edges_list_Andreina = [[u,v,w+2] for [u,v,w] in edges_list_Javier]
-
-    #se hace un nuevo grafo con estos pesos
-    grafo_andreina = GraphAdyMatrix(36,edges_list_Andreina)
-    
-    #borrar los arcos por los que paso javier tras el dijkstra
-    new_grafo_andreina = erase_visited_edges(grafo_andreina, list(path_javier))
-    
-    
-    #dijkstra Andreina
-    distance_andreina, path_andreina = new_grafo_andreina.dijkstra("Andreina",21)
-
-    print("")
-    print("ANDREINA")
-    print(distance_andreina)
-    print(path_andreina)
-
+    distance_javier, distance_andreina, path_javier, path_andreina = initialize_graphs(edges_list_Javier, 34)
+   
     graficar_grafo(G, list(path_javier), list(path_andreina))
 
 main()

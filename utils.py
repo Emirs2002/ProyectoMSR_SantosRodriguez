@@ -1,8 +1,43 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-import numpy as np
 from GraphAdyMatrix import GraphAdyMatrix
+from GraphNx import GraphNx
 
+def initialize_graphs(edges, destination):
+
+    #Grafo Javier
+    grafo_Javier = GraphAdyMatrix(36,edges)
+
+    #dijkstra Javier
+    distance_javier, path_javier = grafo_Javier.dijkstra("Javier",destination)
+    
+    print("JAVIER")
+    print(distance_javier)
+    print(path_javier)
+    
+
+    #crear grafo de andreina
+    #lista de arcos con los pesos de andreina (2 + pesosJavier)
+    edges_list_Andreina = [[u,v,w+2] for [u,v,w] in edges]
+
+    #se hace un nuevo grafo con estos pesos
+    grafo_andreina = GraphAdyMatrix(36,edges_list_Andreina)
+    
+    #borrar los arcos por los que paso javier tras el dijkstra
+    new_grafo_andreina = erase_visited_edges(grafo_andreina, list(path_javier))
+    
+    
+    #dijkstra Andreina
+    distance_andreina, path_andreina = new_grafo_andreina.dijkstra("Andreina",destination)
+
+    print("")
+    print("ANDREINA")
+    print(distance_andreina)
+    print(path_andreina)
+
+    return distance_javier, distance_andreina, path_javier, path_andreina
+
+    
 
 #GRAFICAR EL GRAFO CON SUS PESOS
 def graficar_grafo(G, dijkstra_edges_javier,dijkstra_edges_Andreina):
