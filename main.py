@@ -18,14 +18,14 @@ def main():
                   [23,29,5],[24,25,10],[24,30,5],[25,26,10],[25,"Disco",7],[26,27,10],[26,32,7],[27,28,10],[27,"Cerveceria",7],[28,29,10],[28,34,5],[29,"Cafe",5],[30,"Disco",5],["Disco",32,5],[32,"Cerveceria",5],
                   ["Cerveceria",34,5],[34,"Cafe",5]]
     
-    print("")
-    print("GRAFO BELLO")
+    # print("")
+    # print("GRAFO BELLO")
     G = Graph(edges_list_Javier).create_graph()
 
-    distance, path = find_shortest_path(G, "Javier","Bar")
+    # distance, path = find_shortest_path(G, "Javier","Bar")
 
-    print(distance)
-    print(path)
+    # print(distance)
+    # print(path)
 
     
     grafo = GraphAdyMatrix(36)
@@ -37,16 +37,12 @@ def main():
 
     print("")
     print("CON GRAFO A MANO")
-    distance, path = grafo.dijkstra("Javier","Bar")
+    distance, path = grafo.dijkstra("Javier","Cerveceria")
 
     print(distance)
     print(path)
 
 
-    #length, path = nx.single_source_dijkstra(G,source="Javier",target=10)
-    #print(path)
-    #print(length)
-
-    #graficar_grafo(G)
+    graficar_grafo(G, list(path))
 
 main()
