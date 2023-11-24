@@ -17,11 +17,33 @@ def main():
     grafo_Javier = GraphAdyMatrix(36,edges_list_Javier)
 
     #prueba dijkstra
-    distance_javier, path_javier = grafo_Javier.dijkstra("Javier","Bar")
+    distance_javier, path_javier = grafo_Javier.dijkstra("Javier",21)
+    
+    print("JAVIER")
     print(distance_javier)
     print(path_javier)
     
 
-    graficar_grafo(G, list(path_javier))
+
+    #crear grafo de andreina
+    #lista de arcos con los pesos de andreina (2 + pesosJavier)
+    edges_list_Andreina = [[u,v,w+2] for [u,v,w] in edges_list_Javier]
+
+    #se hace un nuevo grafo con estos pesos
+    grafo_andreina = GraphAdyMatrix(36,edges_list_Andreina)
+    
+    #borrar los arcos por los que paso javier tras el dijkstra
+    new_grafo_andreina = erase_visited_edges(grafo_andreina, list(path_javier))
+    
+    
+    #dijkstra Andreina
+    distance_andreina, path_andreina = new_grafo_andreina.dijkstra("Andreina",21)
+
+    print("")
+    print("ANDREINA")
+    print(distance_andreina)
+    print(path_andreina)
+
+    graficar_grafo(G, list(path_javier), list(path_andreina))
 
 main()

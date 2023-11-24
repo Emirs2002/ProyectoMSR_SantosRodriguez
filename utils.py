@@ -1,9 +1,11 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
+from GraphAdyMatrix import GraphAdyMatrix
+
 
 #GRAFICAR EL GRAFO CON SUS PESOS
-def graficar_grafo(G, dijkstra_edges_javier):
+def graficar_grafo(G, dijkstra_edges_javier,dijkstra_edges_Andreina):
     
     pos = nx.spring_layout(G, seed = 7)
 
@@ -24,22 +26,22 @@ def graficar_grafo(G, dijkstra_edges_javier):
     nx.draw_networkx_edges(G,rotated_pos,edgelist=elist,width=3)
 
     #pintar los arcos de dijkstra
-    edges_dijks= get_dijkstra_edges(dijkstra_edges_javier)        
-    nx.draw_networkx_edges(G,rotated_pos,edgelist=edges_dijks,width=4, edge_color="tab:red")
+    edges_dijks_jav= get_dijkstra_edges(dijkstra_edges_javier)        
+    edges_dijks_and= get_dijkstra_edges(dijkstra_edges_Andreina)        
+    nx.draw_networkx_edges(G,rotated_pos,edgelist=edges_dijks_jav,width=4, edge_color="orange")
+    nx.draw_networkx_edges(G,rotated_pos,edgelist=edges_dijks_and,width=4, edge_color="pink")
 
     #LABELS
     nx.draw_networkx_labels(G,rotated_pos,font_size=10)
 
-    edge_labels = nx.get_edge_attributes(G,"weight")
-    nx.draw_networkx_edge_labels(G,rotated_pos,edge_labels)
+    # edge_labels = nx.get_edge_attributes(G,"weight")
+    # nx.draw_networkx_edge_labels(G,rotated_pos,edge_labels)
     
-    # ax = plt.gca()
-    # ax.margins(0.08)
+
     plt.tight_layout()
     plt.xlim(0,2)
     plt.ylim(0,2)
     plt.axis("off")
-    plt.get_current_fig_manager().window.state('normal')
     plt.show()
 
  # guardar en una lista los arcos de dijkstra
@@ -51,5 +53,13 @@ def get_dijkstra_edges(dijkstra_lista):
 
     return edges_dijks
 
+#borrar arcos para el segundo recorrido
 def erase_visited_edges(grafo, dijkstra_lista):
-    get_dijkstra_edges(dijkstra_lista)
+    grafo_nuevo = grafo
+    edges_dijks = get_dijkstra_edges(dijkstra_lista)
+
+    for edge in range(len(edges_dijks)):
+        min_edge_list = list(edges_dijks[edge])
+        grafo_nuevo.remove_edge(min_edge_list[0],min_edge_list[1])
+    
+    return grafo_nuevo 
