@@ -1,4 +1,4 @@
-from Vertex import Vertex
+
 class GraphAdyMatrix:
     def __init__(self, num_of_nodes, edges_list):
         self.m_num_of_nodes = num_of_nodes
@@ -37,10 +37,10 @@ class GraphAdyMatrix:
 
     def dijkstra(self, source, destination):
         # Inicializacion
-        distance = {node: float('inf') for node in self.node_labels}
-        distance[source] = 0
+        distance = {node: float('inf') for node in self.node_labels} #todos los valores a infinito
+        distance[source] = 0 #distancia del origen se inicializa en 0
 
-        # set de visitados
+        # set para guardar los nodos visitados
         visited = set()
 
         # Mantiene el camino hacia el nodo destino. Cada camino es una lista vacia al inicio
@@ -57,7 +57,6 @@ class GraphAdyMatrix:
                     min_distance = distance[node]
                     current_node = node
 
-            #current_node = min((node for node in distance if node not in visited), key=lambda x: distance[x])
             visited.add(current_node)
 
             # actualizar las distancias de los nodos vecinos
@@ -67,11 +66,11 @@ class GraphAdyMatrix:
                     new_distance = distance[current_node] + weight #se suma a la distancia acumulada
                     
                     neighbor_pos = list(self.node_labels.keys())[neighbor]#hace una lista con las llaves del diccionario y busca en la posicion del vecino
-                                                                        
+                    
                     if new_distance < distance[neighbor_pos]: #este mismo sera el indice en el diccionario distance
                                                                                         
                         distance[neighbor_pos] = new_distance #se actualiza la nueva distancia para el neighbor en el dic de distancias
-                        path[neighbor_pos] = path[current_node] + [current_node]
+                        path[neighbor_pos] = path[current_node] + [current_node] #en el dict path se guarda el camino anterior mas el nodo actual
 
         shortest_distance = distance[destination]
         shortest_path = path[destination] + [destination]

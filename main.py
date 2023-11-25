@@ -1,4 +1,3 @@
-from GraphAdyMatrix import GraphAdyMatrix
 from GraphNx import GraphNx
 from utils import *
 
@@ -13,8 +12,15 @@ def main():
      # Grafo networkx
     G = GraphNx(edges_list_Javier).create_graph()
     
-    distance_javier, distance_andreina, path_javier, path_andreina = initialize_graphs(edges_list_Javier, 34)
+    path_javier, path_andreina, late, time, distance_andreina, distance_javier = run_graphs(edges_list_Javier, "Cafe")
+
+    print(f"Andreina tarda: {distance_andreina}")
+    print(f"Javier tarda: {distance_javier}")
+    print("")
+    print("Llega tarde: " + late)
+    print(f"Deberia salir:{time} min antes")
+
    
-    graficar_grafo(G, list(path_javier), list(path_andreina))
+    graficar_grafo_paths(G, list(path_javier), list(path_andreina))
 
 main()
