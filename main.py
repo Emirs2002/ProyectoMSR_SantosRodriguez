@@ -20,8 +20,8 @@ def main():
     #print("Llega tarde: " + late)
     #print(f"Deberia salir:{time} min antes")
 
-       #gui
-    gui(G,  edges_list_Javier )
+    #gui
+    gui(G,  edges_list_Javier)
 
 
 main()
