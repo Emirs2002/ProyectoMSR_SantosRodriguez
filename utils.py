@@ -203,10 +203,10 @@ def gui(G, dijkstra):
 
     #Resultados del recorrido version grafica
     if selected_option == "":
-        grafo_button = ctk.CTkButton(master=frame, text="Ver Grafo",  command=lambda: graficar_grafo(G, dijkstra))
+        grafo_button = ctk.CTkButton(master=frame, text="Ver Grafo",  command=lambda: graficar_grafo(G))
         grafo_button.pack(padx=5, pady=10)
     else:
-        grafo_button = ctk.CTkButton(master=frame, text="Ver Grafo",  command=lambda: graficar_grafo(G, dijkstra))
+        grafo_button = ctk.CTkButton(master=frame, text="Ver Grafo",  command=lambda: graficar_grafo(G))
         grafo_button.pack(padx=5, pady=10)
 
     
