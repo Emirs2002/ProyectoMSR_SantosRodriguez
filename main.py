@@ -12,17 +12,16 @@ def main():
      # Grafo networkx
     G = GraphNx(edges_list_Javier).create_graph()
     
-    path_javier, path_andreina, late, time, distance_andreina, distance_javier = run_graphs(edges_list_Javier, "Cafe")
+    #path_javier, path_andreina, late, time, distance_andreina, distance_javier = run_graphs(edges_list_Javier, "Cafe")
 
-    print(f"Andreina tarda: {distance_andreina}")
-    print(f"Javier tarda: {distance_javier}")
-    print("")
-    print("Llega tarde: " + late)
-    print(f"Deberia salir:{time} min antes")
+    #print(f"Andreina tarda: {distance_andreina}")
+    #print(f"Javier tarda: {distance_javier}")
+    #print("")
+    #print("Llega tarde: " + late)
+    #print(f"Deberia salir:{time} min antes")
 
        #gui
-    gui(G, list(path_javier))
+    gui(G,  edges_list_Javier )
 
-    #graficar_grafo_paths(G, list(path_javier), list(path_andreina))
 
 main()

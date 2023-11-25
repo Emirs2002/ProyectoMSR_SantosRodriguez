@@ -1,3 +1,4 @@
+from cgitb import text
 import networkx as nx
 import matplotlib.pyplot as plt
 from GraphAdyMatrix import GraphAdyMatrix
@@ -137,12 +138,34 @@ def erase_visited_edges(grafo, dijkstra_lista):
     return grafo_nuevo 
 
 
-def gui(G, dijkstra):
+def gui(G, edges):
 
+    #Variables y fucniones auxiliares
     def combobox_callback(choice):
         print(choice)
     
-    options = ["","Bar", "Cerveceria", "Disco", "Cafe"]
+    options = ["", "Bar", "Cerveceria", "Disco", "Cafe"]
+
+    path_javier = []
+    path_andreina = []
+    late = ""
+    time = 0
+    distance_andreina = 0
+    distance_javier = 0
+
+    def calcular_todo(edges, option, entry1A, entry1J, entry2A, entry2J):
+        if option != "":
+            path_javier, path_andreina, late, time, distance_andreina, distance_javier = run_graphs(edges, option)
+            entry1A.configure(text=str(distance_andreina))
+            entry1J.configure(text=str(distance_javier))
+            if late == "Andreina":
+                entry2J.configure(text="0")   
+                entry2A.configure(text=str(time))  
+            else:
+                entry2A.configure(text="0") 
+                entry2J.configure(text=str(time))       
+
+
 
     #setup interaz
     ctk.set_appearance_mode("dark")
@@ -152,25 +175,26 @@ def gui(G, dijkstra):
     root.title("ProyectoMSR")
 
 
-    #Frame
+    #Frames y labels
     frame = ctk.CTkFrame(master=root)
     frame.pack(pady=20, padx=20, fill="both", expand=True)
-
     titulo = ctk.CTkLabel(master=frame, text="Amor prohibido en las calles de Bogota", font=("Arial Black", 16))
     titulo.pack(pady=10)
-
-    #opciones para generar el camino
     grafo_info = ctk.CTkFrame(master=frame)
     grafo_info.pack(padx=10, pady=10, fill="both")
     label1 = ctk.CTkLabel(master=grafo_info,  text="Destino", font=("Arial Black", 14))
     label1.pack(pady=10, padx=10)
+
+    #opciones para generar el camino
     selected_option = tk.StringVar()
     selected_option.set(options[0])
     combobox = ctk.CTkComboBox(grafo_info, values=options, variable=selected_option, command=combobox_callback)
     combobox.pack(pady=10, padx=10)
-    ir_button=ctk.CTkButton(grafo_info, text="Ir")
-    ir_button.pack(padx=10, pady=10, anchor="e")
 
+    #buton para calcular dijkstra
+    ir_button=ctk.CTkButton(grafo_info, text="Ir", command=lambda: calcular_todo(edges, selected_option.get(), entry1_andreina, entry1_javier, entry2_andreina, entry2_javier))
+    ir_button.pack(padx=10, pady=10, anchor="e")
+   
     #Resultados del recorrido
     resultados_info = ctk.CTkFrame(master=frame)
     resultados_info.pack(padx=10, pady=10, fill="both")
@@ -179,13 +203,13 @@ def gui(G, dijkstra):
     resultados_andreina = ctk.CTkLabel(master=resultados_info, text="Andreina", font=("Arial Black", 14))
     resultados_javier = ctk.CTkLabel(master=resultados_info, text="Javier", font=("Arial Black", 14))
     duracion_andreina = ctk.CTkLabel(master=resultados_info, text="Duracion total: ", font=("Arial Black", 10))
-    entry1_andreina = ctk.CTkEntry(master=resultados_info, width=80)
+    entry1_andreina = ctk.CTkLabel(master=resultados_info, width=80, text=str(distance_andreina))
     duracion_javier = ctk.CTkLabel(master=resultados_info, text="Duracion total: ", font=("Arial Black", 10))
-    entry1_javier = ctk.CTkEntry(master=resultados_info, width=80)
+    entry1_javier = ctk.CTkLabel(master=resultados_info, width=80, text=str(distance_javier))
     antes_andreina = ctk.CTkLabel(master=resultados_info, text="Sale antes por: ", font=("Arial Black", 10))
-    entry2_andreina = ctk.CTkEntry(master=resultados_info, width=80)
+    entry2_andreina = ctk.CTkLabel(master=resultados_info, width=80, text=str(time))
     antes_javier = ctk.CTkLabel(master=resultados_info, text="Sale antes por: ", font=("Arial Black", 10))
-    entry2_javier = ctk.CTkEntry(master=resultados_info, width=80)
+    entry2_javier = ctk.CTkLabel(master=resultados_info, width=80, text=str(time))
 
 
     resultados_andreina.grid(row=0,column=0, padx=10, pady=10, sticky="we")
@@ -202,11 +226,12 @@ def gui(G, dijkstra):
 
 
     #Resultados del recorrido version grafica
-    if selected_option == "":
+    if selected_option.get() == "":
+        #genera grafo solito
         grafo_button = ctk.CTkButton(master=frame, text="Ver Grafo",  command=lambda: graficar_grafo(G))
         grafo_button.pack(padx=5, pady=10)
     else:
-        grafo_button = ctk.CTkButton(master=frame, text="Ver Grafo",  command=lambda: graficar_grafo(G))
+        grafo_button = ctk.CTkButton(master=frame, text="Ver Grafo",  command=lambda: graficar_grafo_paths(G, list(path_javier),list(path_andreina)))
         grafo_button.pack(padx=5, pady=10)
 
     
