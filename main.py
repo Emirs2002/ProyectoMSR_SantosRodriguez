@@ -21,7 +21,9 @@ def main():
     print(distance_javier)
     print(path_javier)
     
+    #gui
+    gui(G, list(path_javier))
 
-    graficar_grafo(G, list(path_javier))
+    #graficar_grafo(G, list(path_javier))
 
 main()

@@ -1,6 +1,9 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
+import customtkinter as ctk
+import tkinter as tk
+
 
 #GRAFICAR EL GRAFO CON SUS PESOS
 def graficar_grafo(G, dijkstra_edges_javier):
@@ -53,3 +56,80 @@ def get_dijkstra_edges(dijkstra_lista):
 
 def erase_visited_edges(grafo, dijkstra_lista):
     get_dijkstra_edges(dijkstra_lista)
+
+
+def gui(G, dijkstra):
+
+    def combobox_callback(choice):
+        print(choice)
+    
+    options = ["","Bar", "Cerveceria", "Disco", "Cafe"]
+
+    #setup interaz
+    ctk.set_appearance_mode("dark")
+    ctk.set_default_color_theme("green")
+    root = ctk.CTk()
+    root.geometry("500x450")
+    root.title("ProyectoMSR")
+
+
+    #Frame
+    frame = ctk.CTkFrame(master=root)
+    frame.pack(pady=20, padx=20, fill="both", expand=True)
+
+    titulo = ctk.CTkLabel(master=frame, text="Amor prohibido en las calles de Bogota", font=("Arial Black", 16))
+    titulo.pack(pady=10)
+
+    #opciones para generar el camino
+    grafo_info = ctk.CTkFrame(master=frame)
+    grafo_info.pack(padx=10, pady=10, fill="both")
+    label1 = ctk.CTkLabel(master=grafo_info,  text="Destino", font=("Arial Black", 14))
+    label1.pack(pady=10, padx=10)
+    selected_option = tk.StringVar()
+    selected_option.set(options[0])
+    combobox = ctk.CTkComboBox(grafo_info, values=options, variable=selected_option, command=combobox_callback)
+    combobox.pack(pady=10, padx=10)
+    ir_button=ctk.CTkButton(grafo_info, text="Ir")
+    ir_button.pack(padx=10, pady=10, anchor="e")
+
+    #Resultados del recorrido
+    resultados_info = ctk.CTkFrame(master=frame)
+    resultados_info.pack(padx=10, pady=10, fill="both")
+    resultados_info.columnconfigure(0, weight=1)
+    resultados_info.columnconfigure(1, weight=1)
+    resultados_andreina = ctk.CTkLabel(master=resultados_info, text="Andreina", font=("Arial Black", 14))
+    resultados_javier = ctk.CTkLabel(master=resultados_info, text="Javier", font=("Arial Black", 14))
+    duracion_andreina = ctk.CTkLabel(master=resultados_info, text="Duracion total: ", font=("Arial Black", 10))
+    entry1_andreina = ctk.CTkEntry(master=resultados_info, width=80)
+    duracion_javier = ctk.CTkLabel(master=resultados_info, text="Duracion total: ", font=("Arial Black", 10))
+    entry1_javier = ctk.CTkEntry(master=resultados_info, width=80)
+    antes_andreina = ctk.CTkLabel(master=resultados_info, text="Sale antes por: ", font=("Arial Black", 10))
+    entry2_andreina = ctk.CTkEntry(master=resultados_info, width=80)
+    antes_javier = ctk.CTkLabel(master=resultados_info, text="Sale antes por: ", font=("Arial Black", 10))
+    entry2_javier = ctk.CTkEntry(master=resultados_info, width=80)
+
+
+    resultados_andreina.grid(row=0,column=0, padx=10, pady=10, sticky="we")
+    resultados_javier.grid(row=0, column=1,  padx=10, pady=10, sticky="we")
+    duracion_andreina.grid(row=1, column=0, sticky="w", padx=10)
+    entry1_andreina.grid(row=1, column=0, padx=10, sticky="e")
+    duracion_javier.grid(row=1, column=1, sticky="w", padx=10)
+    entry1_javier.grid(row=1, column=1, padx=10, sticky="e")
+    antes_andreina.grid(row=2, column=0, sticky="w", padx=10, pady=10)
+    entry2_andreina.grid(row=2, column=0, padx=10, sticky="e", pady=10)
+    antes_javier.grid(row=2, column=1, sticky="w", padx=10, pady=10)
+    entry2_javier.grid(row=2, column=1, padx=10, sticky="e", pady=10)
+
+
+
+    #Resultados del recorrido version grafica
+    if selected_option == "":
+        grafo_button = ctk.CTkButton(master=frame, text="Ver Grafo",  command=lambda: graficar_grafo(G, dijkstra))
+        grafo_button.pack(padx=5, pady=10)
+    else:
+        grafo_button = ctk.CTkButton(master=frame, text="Ver Grafo",  command=lambda: graficar_grafo(G, dijkstra))
+        grafo_button.pack(padx=5, pady=10)
+
+    
+
+    root.mainloop()
