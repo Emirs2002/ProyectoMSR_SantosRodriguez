@@ -14,4 +14,5 @@ class GraphNx:
 
         return G
     
+
     
