@@ -51,42 +51,39 @@ import tkinter as tk
 #GRAFICAR EL GRAFO CON CAMINOS
 def graficar_grafo_paths(G, dijkstra_edges_javier,dijkstra_edges_Andreina):
     
-    if dijkstra_edges_javier == [] and dijkstra_edges_Andreina == []:
-        graficar_grafo(G)
-    else:
-        pos = nx.spring_layout(G, seed = 7)
+    pos = nx.spring_layout(G, seed = 7)
 
-        rotated_pos = {node: (y, -x) for node, (x, y) in pos.items()}
+    rotated_pos = {node: (y, -x) for node, (x, y) in pos.items()}
 
-        #pintar los nodos
-        nx.draw_networkx_nodes(G, rotated_pos, node_size=900, node_color="tab:blue")
-        nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Javier"], node_color="tab:orange")
-        nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Andreina"], node_color="tab:pink")
+    #pintar los nodos
+    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, node_color="tab:blue")
+    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Javier"], node_color="tab:orange")
+    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Andreina"], node_color="tab:pink")
 
-        nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Bar"], node_color="tab:red")
-        nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Cafe"], node_color="whitesmoke")
-        nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Disco"], node_color="tab:purple")
-        nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Cerveceria"], node_color="yellow")
+    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Bar"], node_color="tab:red")
+    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Cafe"], node_color="whitesmoke")
+    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Disco"], node_color="tab:purple")
+    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Cerveceria"], node_color="yellow")
 
-        #pintar arcos
-        elist = [(u,v) for (u,v,d) in G.edges(data = True)]
-        nx.draw_networkx_edges(G,rotated_pos,edgelist=elist,width=3)
+    #pintar arcos
+    elist = [(u,v) for (u,v,d) in G.edges(data = True)]
+    nx.draw_networkx_edges(G,rotated_pos,edgelist=elist,width=3)
 
-        #pintar los arcos de dijkstra
-        edges_dijks_jav= get_dijkstra_edges(dijkstra_edges_javier)        
-        edges_dijks_and= get_dijkstra_edges(dijkstra_edges_Andreina)        
-        nx.draw_networkx_edges(G,rotated_pos,edgelist=edges_dijks_jav,width=4, edge_color="orange")
-        nx.draw_networkx_edges(G,rotated_pos,edgelist=edges_dijks_and,width=4, edge_color="pink")
+    #pintar los arcos de dijkstra
+    edges_dijks_jav= get_dijkstra_edges(dijkstra_edges_javier)        
+    edges_dijks_and= get_dijkstra_edges(dijkstra_edges_Andreina)        
+    nx.draw_networkx_edges(G,rotated_pos,edgelist=edges_dijks_jav,width=4, edge_color="orange")
+    nx.draw_networkx_edges(G,rotated_pos,edgelist=edges_dijks_and,width=4, edge_color="pink")
 
-        #LABELS
-        nx.draw_networkx_labels(G,rotated_pos,font_size=10)
+    #LABELS
+    nx.draw_networkx_labels(G,rotated_pos,font_size=10)
 
 
-        plt.tight_layout()
-        plt.xlim(0,2)
-        plt.ylim(0,2)
-        plt.axis("off")
-        plt.show()
+    plt.tight_layout()
+    plt.xlim(0,2)
+    plt.ylim(0,2)
+    plt.axis("off")
+    plt.show()
 
 #Graficar grafo general
 def graficar_grafo(G):
@@ -167,7 +164,9 @@ def gui(G, edges):
             else:
                 entry2A.configure(text="0") 
                 entry2J.configure(text=str(time)) 
-            graficar_grafo_paths(G, list(path_javier),list(path_andreina))      
+            graficar_grafo_paths(G, list(path_javier),list(path_andreina))
+        else:
+            graficar_grafo(G)      
 
 
 
