@@ -1,6 +1,5 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 from GraphAdyMatrix import GraphAdyMatrix
 import customtkinter as ctk
 import tkinter as tk
@@ -92,7 +91,7 @@ def graficar_grafo(G):
 
     rotated_pos = {node: (y, -x) for node, (x, y) in pos.items()}
 
-    fig = plt.figure(3,figsize=(10,8)) 
+    plt.figure(3,figsize=(10,8)) 
 
     #pintar los nodos
     nx.draw_networkx_nodes(G, rotated_pos, node_size=900, node_color="powderblue", edgecolors="black")
@@ -129,6 +128,7 @@ def get_dijkstra_edges(dijkstra_lista):
 
 #borrar arcos para el segundo recorrido
 def erase_visited_edges(grafo, dijkstra_lista):
+
     grafo_nuevo = grafo
     edges_dijks = get_dijkstra_edges(dijkstra_lista)
 
@@ -222,14 +222,14 @@ def gui(G, edges):
     resultados_info.columnconfigure(1, weight=1)
     resultados_andreina = ctk.CTkLabel(master=resultados_info, text="Andreina", font=("Arial Black", 14))
     resultados_javier = ctk.CTkLabel(master=resultados_info, text="Javier", font=("Arial Black", 14))
-    duracion_andreina = ctk.CTkLabel(master=resultados_info, text="Duracion total: ", font=("Arial Black", 10))
-    entry1_andreina = ctk.CTkLabel(master=resultados_info, width=80, text=str(distance_andreina))
-    duracion_javier = ctk.CTkLabel(master=resultados_info, text="Duracion total: ", font=("Arial Black", 10))
-    entry1_javier = ctk.CTkLabel(master=resultados_info, width=80, text=str(distance_javier))
+    duracion_andreina = ctk.CTkLabel(master=resultados_info, text="Duración total: ", font=("Arial Black", 10))
+    entry1_andreina = ctk.CTkLabel(master=resultados_info, width=80, text=str(distance_andreina)+ " mins")
+    duracion_javier = ctk.CTkLabel(master=resultados_info, text="Duración total: ", font=("Arial Black", 10))
+    entry1_javier = ctk.CTkLabel(master=resultados_info, width=80, text=str(distance_javier)+ " mins")
     antes_andreina = ctk.CTkLabel(master=resultados_info, text="Sale antes por: ", font=("Arial Black", 10))
-    entry2_andreina = ctk.CTkLabel(master=resultados_info, width=80, text=str(time))
+    entry2_andreina = ctk.CTkLabel(master=resultados_info, width=80, text=str(time)+ " mins")
     antes_javier = ctk.CTkLabel(master=resultados_info, text="Sale antes por: ", font=("Arial Black", 10))
-    entry2_javier = ctk.CTkLabel(master=resultados_info, width=80, text=str(time))
+    entry2_javier = ctk.CTkLabel(master=resultados_info, width=80, text=str(time)+ " mins")
 
 
     resultados_andreina.grid(row=0,column=0, padx=10, pady=10, sticky="we")
@@ -245,12 +245,3 @@ def gui(G, edges):
    
 
     root.mainloop()
-
-# def set_images(G):
-#     img = {
-#         "Andreina": "Images/Andreina.png"
-#         }
-     
-    
-#     G.nodes["Andreina"]["image"] = img["Andreina"]
-#     print(G.nodes.data())

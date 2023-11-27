@@ -12,15 +12,15 @@ class GraphAdyMatrix:
     
     def add_edge(self, source, destination, weight):
         if source not in self.node_labels:
-            self.node_labels[source] = len(self.node_labels)  # Assign a new index for the source node
+            self.node_labels[source] = len(self.node_labels)  # Asignar nuevo indice al nodo 1
         if destination not in self.node_labels:
-            self.node_labels[destination] = len(self.node_labels)  # Assign a new index for the destination node
+            self.node_labels[destination] = len(self.node_labels)  # Asignar nuevo indice al nodo 2
 
         source_index = self.node_labels[source]
         destination_index = self.node_labels[destination]
 
         self.m_adj_matrix[source_index][destination_index] = weight
-        self.m_adj_matrix[destination_index][source_index] = weight  # Assuming the graph is undirected
+        self.m_adj_matrix[destination_index][source_index] = weight 
     
     def remove_edge(self, node1,node2):
 
@@ -39,11 +39,10 @@ class GraphAdyMatrix:
         # Inicializacion
         distance = {node: float('inf') for node in self.node_labels} #todos los valores a infinito
         distance[source] = 0 #distancia del origen se inicializa en 0
-
-        # set para guardar los nodos visitados
-        visited = set()
-
-        # Mantiene el camino hacia el nodo destino. Cada camino es una lista vacia al inicio
+        visited = set()  # set para guardar los nodos visitados
+        
+        # Mantiene el camino hacia el nodo destino. 
+        # Cada camino es una lista vacia al inicio
         path = {node: [] for node in self.node_labels}
 
         while len(visited) < len(self.node_labels):
@@ -66,7 +65,7 @@ class GraphAdyMatrix:
                     new_distance = distance[current_node] + weight #se suma a la distancia acumulada
                     
                     neighbor_pos = list(self.node_labels.keys())[neighbor]#hace una lista con las llaves del diccionario y busca en la posicion del vecino
-                    
+                   
                     if new_distance < distance[neighbor_pos]: #este mismo sera el indice en el diccionario distance
                                                                                         
                         distance[neighbor_pos] = new_distance #se actualiza la nueva distancia para el neighbor en el dic de distancias
@@ -77,4 +76,3 @@ class GraphAdyMatrix:
 
         return shortest_distance, shortest_path
        
-   
