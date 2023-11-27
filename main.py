@@ -9,17 +9,11 @@ def main():
                   [23,29,5],[24,25,10],[24,30,5],[25,26,10],[25,"Disco",7],[26,27,10],[26,32,7],[27,28,10],[27,"Cerveceria",7],[28,29,10],[28,34,5],[29,"Cafe",5],[30,"Disco",5],["Disco",32,5],[32,"Cerveceria",5],
                   ["Cerveceria",34,5],[34,"Cafe",5]]
 
+
      # Grafo networkx
+    
     G = GraphNx(edges_list_Javier).create_graph()
     
-    #path_javier, path_andreina, late, time, distance_andreina, distance_javier = run_graphs(edges_list_Javier, "Cafe")
-
-    #print(f"Andreina tarda: {distance_andreina}")
-    #print(f"Javier tarda: {distance_javier}")
-    #print("")
-    #print("Llega tarde: " + late)
-    #print(f"Deberia salir:{time} min antes")
-
     #gui
     gui(G,  edges_list_Javier)
 

@@ -1,8 +1,9 @@
-from cgitb import text
 import networkx as nx
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 from GraphAdyMatrix import GraphAdyMatrix
-from GraphNx import GraphNx
+import customtkinter as ctk
+import tkinter as tk
 
 def run_graphs(edges, destination):
 
@@ -44,9 +45,6 @@ def calculate_time(dis_and, dis_jav):
 
     return late, time
 
-import customtkinter as ctk
-import tkinter as tk
-
 
 #GRAFICAR EL GRAFO CON CAMINOS
 def graficar_grafo_paths(G, dijkstra_edges_javier,dijkstra_edges_Andreina):
@@ -55,14 +53,16 @@ def graficar_grafo_paths(G, dijkstra_edges_javier,dijkstra_edges_Andreina):
 
     rotated_pos = {node: (y, -x) for node, (x, y) in pos.items()}
 
+    plt.figure(3,figsize=(10,8)) 
+
     #pintar los nodos
-    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, node_color="tab:blue")
+    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, node_color="powderblue", edgecolors="black")
     nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Javier"], node_color="tab:orange")
-    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Andreina"], node_color="tab:pink")
+    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Andreina"],node_color="tab:pink")
 
     nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Bar"], node_color="tab:red")
     nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Cafe"], node_color="whitesmoke")
-    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Disco"], node_color="tab:purple")
+    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Disco"], node_color="lightgreen")
     nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Cerveceria"], node_color="yellow")
 
     #pintar arcos
@@ -76,13 +76,13 @@ def graficar_grafo_paths(G, dijkstra_edges_javier,dijkstra_edges_Andreina):
     nx.draw_networkx_edges(G,rotated_pos,edgelist=edges_dijks_and,width=4, edge_color="pink")
 
     #LABELS
-    nx.draw_networkx_labels(G,rotated_pos,font_size=10)
+    nx.draw_networkx_labels(G,rotated_pos,font_size=10,font_weight="bold")
 
 
     plt.tight_layout()
     plt.xlim(0,2)
     plt.ylim(0,2)
-    plt.axis("off")
+    plt.axis("equal")
     plt.show()
 
 #Graficar grafo general
@@ -92,14 +92,16 @@ def graficar_grafo(G):
 
     rotated_pos = {node: (y, -x) for node, (x, y) in pos.items()}
 
+    fig = plt.figure(3,figsize=(10,8)) 
+
     #pintar los nodos
-    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, node_color="tab:blue")
+    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, node_color="powderblue", edgecolors="black")
     nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Javier"], node_color="tab:orange")
     nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Andreina"], node_color="tab:pink")
 
     nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Bar"], node_color="tab:red")
     nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Cafe"], node_color="whitesmoke")
-    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Disco"], node_color="tab:purple")
+    nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Disco"], node_color="lightgreen")
     nx.draw_networkx_nodes(G, rotated_pos, node_size=900, nodelist=["Cerveceria"], node_color="yellow")
 
     #pintar arcos
@@ -108,13 +110,12 @@ def graficar_grafo(G):
 
 
     #LABELS
-    nx.draw_networkx_labels(G,rotated_pos,font_size=10)
-
-
+    nx.draw_networkx_labels(G,rotated_pos,font_size=12,font_color="black", font_weight="bold")
+  
     plt.tight_layout()
     plt.xlim(0,2)
     plt.ylim(0,2)
-    plt.axis("off")
+    plt.axis("equal")
     plt.show()
 
  # guardar en una lista los arcos de dijkstra
@@ -137,14 +138,27 @@ def erase_visited_edges(grafo, dijkstra_lista):
     
     return grafo_nuevo 
 
+def make_options(G):
+    G_nodes = [node for node in list(G.nodes) if node not in ["Andreina", "Javier"]]
+    G_nodes_num = [node for node in G_nodes if isinstance(node,int)]
+    G_nodes_num.sort()
+    G_nodes_num = [str(node) for node in G_nodes_num]
+    
+    G_nodes_alpha = [node for node in G_nodes if isinstance(node,str)]
+    G_nodes_alpha.sort()
+
+
+    all_nodes = [""] + G_nodes_alpha + G_nodes_num
+
+    return all_nodes
 
 def gui(G, edges):
 
-    #Variables y fucniones auxiliares
+    #Variables y funciones auxiliares
     def combobox_callback(choice):
         print(choice)
     
-    options = ["", "Bar", "Cerveceria", "Disco", "Cafe"]
+    options = make_options(G)
 
     path_javier = []
     path_andreina = []
@@ -155,6 +169,9 @@ def gui(G, edges):
 
     def calcular_todo(edges, option, entry1A, entry1J, entry2A, entry2J):
         if option != "":
+            if option.isnumeric():
+                option = int(option)
+
             path_javier, path_andreina, late, time, distance_andreina, distance_javier = run_graphs(edges, option)
             entry1A.configure(text=str(distance_andreina))
             entry1J.configure(text=str(distance_javier))
@@ -170,7 +187,7 @@ def gui(G, edges):
 
 
 
-    #setup interaz
+    #setup interfaz
     ctk.set_appearance_mode("dark")
     ctk.set_default_color_theme("green")
     root = ctk.CTk()
@@ -181,17 +198,17 @@ def gui(G, edges):
     #Frames y labels
     frame = ctk.CTkFrame(master=root)
     frame.pack(pady=20, padx=20, fill="both", expand=True)
-    titulo = ctk.CTkLabel(master=frame, text="Amor prohibido en las calles de Bogota", font=("Arial Black", 16))
+    titulo = ctk.CTkLabel(master=frame, text="Amor prohibido en las calles de Bogotá", font=("Arial Black", 16))
     titulo.pack(pady=10)
     grafo_info = ctk.CTkFrame(master=frame)
     grafo_info.pack(padx=10, pady=10, fill="both")
-    label1 = ctk.CTkLabel(master=grafo_info,  text="Destino", font=("Arial Black", 14))
+    label1 = ctk.CTkLabel(master=grafo_info,  text="Elija un destino:", font=("Arial Black", 14))
     label1.pack(pady=10, padx=10)
 
     #opciones para generar el camino
     selected_option = tk.StringVar()
     selected_option.set(options[0])
-    combobox = ctk.CTkComboBox(grafo_info, values=options, variable=selected_option, command=combobox_callback)
+    combobox = ctk.CTkComboBox(grafo_info, values=options, variable=selected_option, command=combobox_callback, state="readonly")
     combobox.pack(pady=10, padx=10)
 
     #buton para calcular dijkstra
@@ -228,3 +245,12 @@ def gui(G, edges):
    
 
     root.mainloop()
+
+# def set_images(G):
+#     img = {
+#         "Andreina": "Images/Andreina.png"
+#         }
+     
+    
+#     G.nodes["Andreina"]["image"] = img["Andreina"]
+#     print(G.nodes.data())
