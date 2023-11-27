@@ -75,7 +75,7 @@ def graficar_grafo_paths(G, dijkstra_edges_javier,dijkstra_edges_Andreina):
     nx.draw_networkx_edges(G,rotated_pos,edgelist=edges_dijks_and,width=4, edge_color="pink")
 
     #LABELS
-    nx.draw_networkx_labels(G,rotated_pos,font_size=10,font_weight="bold")
+    nx.draw_networkx_labels(G,rotated_pos,font_size=12,font_color="black", font_weight="bold")
 
 
     plt.tight_layout()
@@ -173,14 +173,14 @@ def gui(G, edges):
                 option = int(option)
 
             path_javier, path_andreina, late, time, distance_andreina, distance_javier = run_graphs(edges, option)
-            entry1A.configure(text=str(distance_andreina))
-            entry1J.configure(text=str(distance_javier))
+            entry1A.configure(text=str(distance_andreina)+ " mins")
+            entry1J.configure(text=str(distance_javier)+ " mins")
             if late == "Andreina":
                 entry2J.configure(text="0")   
-                entry2A.configure(text=str(time))  
+                entry2A.configure(text=str(time)+ " mins")  
             else:
                 entry2A.configure(text="0") 
-                entry2J.configure(text=str(time)) 
+                entry2J.configure(text=str(time)+ " mins") 
             graficar_grafo_paths(G, list(path_javier),list(path_andreina))
         else:
             graficar_grafo(G)      
@@ -212,8 +212,8 @@ def gui(G, edges):
     combobox.pack(pady=10, padx=10)
 
     #buton para calcular dijkstra
-    ir_button=ctk.CTkButton(grafo_info, text="Ir", command=lambda: calcular_todo(edges, selected_option.get(), entry1_andreina, entry1_javier, entry2_andreina, entry2_javier))
-    ir_button.pack(padx=10, pady=10, anchor="e")
+    ir_button=ctk.CTkButton(grafo_info, text="IR AL DESTINO", command=lambda: calcular_todo(edges, selected_option.get(), entry1_andreina, entry1_javier, entry2_andreina, entry2_javier))
+    ir_button.pack(padx=150, pady=10, anchor="e")
    
     #Resultados del recorrido
     resultados_info = ctk.CTkFrame(master=frame)
@@ -229,7 +229,7 @@ def gui(G, edges):
     antes_andreina = ctk.CTkLabel(master=resultados_info, text="Sale antes por: ", font=("Arial Black", 10))
     entry2_andreina = ctk.CTkLabel(master=resultados_info, width=80, text=str(time)+ " mins")
     antes_javier = ctk.CTkLabel(master=resultados_info, text="Sale antes por: ", font=("Arial Black", 10))
-    entry2_javier = ctk.CTkLabel(master=resultados_info, width=80, text=str(time)+ " mins")
+    entry2_javier = ctk.CTkLabel(master=resultados_info, width=80, text=str(time) + " mins")
 
 
     resultados_andreina.grid(row=0,column=0, padx=10, pady=10, sticky="we")
